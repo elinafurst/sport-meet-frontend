@@ -1,0 +1,11 @@
+<h3>Admins</h3>
+
+<div *ngFor="let item of unit.admins | keyvalue">
+    <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+</div>
+
+<h3>Members</h3>
+
+<div *ngFor="let item of unit.members | keyvalue">
+    <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+</div>

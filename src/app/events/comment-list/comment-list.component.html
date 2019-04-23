@@ -1,0 +1,33 @@
+<div class="container">
+    <h3>Kommentarer</h3>
+    <div class="row" *ngFor="let comment of comments">
+       <div class="col-sm-12 col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body pr-5">
+                    <div *ngFor="let item of comment.by | keyvalue">
+                        <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+                    </div>
+                    <p class="card-text">
+                    {{comment.comment}}
+                    </p>
+                    <div>
+                        <span class="badge badge-pill badge-warning" *ngIf="comment.owner" (click)="deleteComment(comment.commentNumber)">
+                                X
+                        </span>
+                        <span class="badge badge-pill badge-light">{{comment.date}}</span>
+                        <span class="badge badge-pill badge-light">{{comment.time}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <div class="container">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <textarea formControlName="comment" placeholder="Skriv din kommentar här" class="form-control" rows="4" cols="50"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Skicka</button>
+        </div>
+    </form>
+ </div>

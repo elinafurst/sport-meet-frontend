@@ -1,0 +1,27 @@
+
+<div>
+  <h2>Skapa en grupp</h2>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 offset-sm-3">
+        <form [formGroup]="unitForm" (ngSubmit)="onSubmit()">      
+            <div class="form-group row">
+                <label  class="col-2 col-form-label">Namn</label>
+                <div class="col-sm-10">
+                    <input readOnly="isEditable()" type="text" class="form-control" id="name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Beskrivning</label>
+                <textarea formControlName="description" placeholder="Skriva gärna lite om gruppen" class="form-control" rows="4" cols="40"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Skapa grupp</button>
+            </div>
+        </form>    
+    </div>
+</div>
+          
+    
+  

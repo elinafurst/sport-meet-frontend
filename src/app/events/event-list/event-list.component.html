@@ -1,0 +1,26 @@
+<div class="wrapper p-sm-5 mt-3">
+<app-event-filter></app-event-filter>
+<h2 class="headers border-bottom">Kommande event</h2>
+    <div class="container pt-3">
+        <div class="row" *ngFor="let event of events">
+            <div class="col-sm-12 col-md-8 mb-4">
+                <a routerLink="/events/{{event.eventNumber}}" class="card">
+                <div class="card-body pr-5">
+                    <h3 class="card-title headers">{{event.name}}</h3>
+                    <p class="card-text">
+                    {{event.description}}
+                    </p>
+                    <span class="badge badge-pill badge-light">{{event.maxParticipants}}</span>
+                    <span class="badge badge-pill badge-light">{{event.noOfParticipants}}</span>
+                    <span class="badge badge-pill badge-light">{{event.city}}</span>
+                    <span class="badge badge-pill badge-light">{{event.area}}</span>
+                    <span class="badge badge-pill badge-light">{{event.meetingPoint}}</span>
+                    <span class="badge badge-pill badge-light">{{event.eventStartDate}}</span>
+                    <span class="badge badge-pill badge-light">{{event.eventStartTime}}</span>
+                    <span class="badge badge-pill badge-light">{{event.sport}}</span>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

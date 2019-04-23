@@ -1,0 +1,5 @@
+<button ><a routerLink="/grupper/registera/form">Skapa din egna grupp</a></button>
+
+<div *ngFor="let unit of units">
+        <a routerLink="/grupper/{{unit.unitNumber}}"> {{unit.name}}</a>
+</div>

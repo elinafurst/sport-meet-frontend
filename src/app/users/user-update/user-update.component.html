@@ -1,0 +1,49 @@
+
+<div>
+    <h2>Användar Info</h2>
+</div>
+<div class="row">
+    <div class="col-sm-8 offset-sm-3">
+        <form *ngIf="user | async; else loading"  [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+                <label class="col-3 col-form-label">Användar namn*</label>
+                <div class="col-sm-9" >
+                    <input [readOnly]="!isEditable()" formControlName="username" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3 col-form-label">Namn</label>
+                <div class="col-sm-9" >
+                    <input [readOnly]="!isEditable()" formControlName="firstname" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3 col-form-label">Efternamn</label>
+                <div class="col-sm-9" >
+                    <input [readOnly]="!isEditable()" formControlName="lastname" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3 col-form-label" >Beskrivning</label>
+                <div class="col-sm-9" >
+                    <input [readOnly]="!isEditable()" formControlName="description" type="text" class="form-control" />
+                </div>
+            </div>
+                <div *ngIf="isEditable()" class="form-group">
+                    <button type="submit"  class="btn btn-primary">Skicka</button>
+                </div>
+        </form>  
+        <div *ngIf="!isEditable()">
+            <button (click)="makeEditable()"  class="btn btn-primary">Uppdatera uppgifter</button>
+        </div> 
+        <div *ngIf="isEditable()">
+            <button (click)="cancelEditable()"  class="btn btn-warning">Avbryt</button>
+        </div> 
+    </div>
+</div>
+          
+    
+  <ng-template #loading>
+    Laddar..
+  </ng-template>
+    

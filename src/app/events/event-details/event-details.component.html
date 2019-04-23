@@ -1,0 +1,40 @@
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body pr-5">
+                    <h3 class="card-title headers">{{event.name}}</h3>
+                    <p class="card-text">
+                    {{event.description}}
+                    </p>
+                    <div>
+                        <span>Skapad av</span>
+                        <div *ngFor="let item of event.createdBy | keyvalue">
+                            <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+                        </div>
+                    </div>
+                    <div *ngIf="event.participants">
+                        <span>Attendade</span>
+                        <div  *ngFor="let item of event.participants | keyvalue">
+                            <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="badge badge-pill badge-light">{{event.maxParticipants}}</span>
+            <span class="badge badge-pill badge-light">{{event.noOfParticipants}}</span>
+            <span class="badge badge-pill badge-light">{{event.city}}</span>
+            <span class="badge badge-pill badge-light">{{event.area}}</span>
+            <span class="badge badge-pill badge-light">{{event.meetingPoint}}</span>
+            <span class="badge badge-pill badge-light">{{event.eventStartDate}}</span>
+
+            <span class="badge badge-pill badge-light">{{event.eventStartTime}}</span>
+
+            <span class="badge badge-pill badge-light">{{event.sport}}</span>
+        </div>
+    </div>
+</div>
+
+
+<app-comment-list></app-comment-list>
