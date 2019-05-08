@@ -13,7 +13,13 @@ import { UnitFormComponent } from './units/unit-form/unit-form.component';
 import { UnitDeatilsComponent } from './units/unit-deatils/unit-deatils.component';
 import { EventFormComponent } from './events/event-form/event-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-
+import { AuthGuardService as AuthGuard } from './guards/auth-guard.service';
+import { RequestListComponent } from './events/requests/request-list/request-list.component';
+import { RequestDetailsComponent } from './events/requests/request-details/request-details.component';
+import { UnitOwnerComponent } from './units/unit-owner/unit-owner.component';
+import { EventOwnerComponent } from './events/event-owner/event-owner.component';
+import { EventUpdateComponent } from './events/event-update/event-update.component';
+import { UnitUpdateComponent } from './units/unit-update/unit-update.component';
 
 const routes: Routes = [
   {
@@ -29,29 +35,45 @@ const routes: Routes = [
     path: "events", component: EventListComponent
   },
   {
-    path: "events/registrera/form", component: EventFormComponent
+    path: "events/registrera/form", component: EventFormComponent, canActivate: [AuthGuard] 
   },
   {
-    path: "users/:id", component: UserDetailsComponent
-  },
-  {
-    path: "events/:id", component: EventDetailsComponent
-  },
-  {
-    path: "grupper", component: UnitListComponent
-  },
-  {
-    path: "grupper/:id", component: UnitDeatilsComponent
-  },
-  {
-    path: "grupper/registera/form", component: UnitFormComponent
-  },
-  {
-    path: "konto/mina-sidor", component: UserUpdateComponent
-  },
+    path: "users/:id", component: UserDetailsComponent, canActivate: [AuthGuard] 
 
-
-   //canActivate: [AuthGuardService]
+  },
+  {
+    path: "events/:id", component: EventDetailsComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "grupper", component: UnitListComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "grupper/:id", component: UnitDeatilsComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "grupper/registera/form", component: UnitFormComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "mina-sidor/konto", component: UserUpdateComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "mina-sidor/grupper", component: UnitOwnerComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "mina-sidor/grupper/:id", component: UnitUpdateComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "mina-sidor/events", component: EventOwnerComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "mina-sidor/events/:id", component: EventUpdateComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "inbox", component: RequestListComponent, canActivate: [AuthGuard] 
+  },
+  {
+    path: "inbox/:id", component: RequestDetailsComponent, canActivate: [AuthGuard] 
+  },
  
   { path: '**', redirectTo: 'home' },
 

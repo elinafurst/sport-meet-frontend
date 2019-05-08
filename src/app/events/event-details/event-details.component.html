@@ -1,40 +1,68 @@
-
 <div class="container pt-5">
-    <div class="row">
-        <div class="col-sm-12 col-md-8 mb-4">
-            <div class="card">
-                <div class="card-body pr-5">
-                    <h3 class="card-title headers">{{event.name}}</h3>
-                    <p class="card-text">
-                    {{event.description}}
-                    </p>
-                    <div>
-                        <span>Skapad av</span>
-                        <div *ngFor="let item of event.createdBy | keyvalue">
-                            <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
-                        </div>
-                    </div>
-                    <div *ngIf="event.participants">
-                        <span>Attendade</span>
-                        <div  *ngFor="let item of event.participants | keyvalue">
-                            <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
-                        </div>
-                    </div>
+    <div class="card w-55 mb-3">
+        <img class="card-img-top" src="../../../assets/images/soccer.jpg" alt="Card image cap">  
+
+       
+            <div class="card-body"> 
+                
+                <div class="row ml-3">
+                    <h5 class="card-title">{{event.name}}</h5>
                 </div>
-            </div>
-            <span class="badge badge-pill badge-light">{{event.maxParticipants}}</span>
-            <span class="badge badge-pill badge-light">{{event.noOfParticipants}}</span>
-            <span class="badge badge-pill badge-light">{{event.city}}</span>
-            <span class="badge badge-pill badge-light">{{event.area}}</span>
-            <span class="badge badge-pill badge-light">{{event.meetingPoint}}</span>
-            <span class="badge badge-pill badge-light">{{event.eventStartDate}}</span>
+                <div class="row ml-3">
+                    <p class="text-muted">Evenemang av: </p>
+                    <div *ngFor="let item of event.createdBy | keyvalue">
+                            <div  class="tab"><a routerLink="/users/{{item.key}}"> {{item.value}} </a></div>
+                    </div>
+                    <p *ngIf="event.byUnit" class="text-muted tab"> · Grupp:</p> 
+                        <div *ngFor="let item of event.byUnit | keyvalue">
+                            <div class="tab"><a routerLink="/grupper/{{item.key}}"> {{item.value}}</a></div>
+                        </div>
+                </div>
+                <div class="border-bottom pb-2"></div>
+                <div class="row  ml-3 pt-4">
+                        <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDate}} {{event.eventStartTime}}</div>   
+                    </div>
+                <div class="row ml-3" >
+                    <p class="text-muted">Sport: </p> <div class="tab">{{event.sport}}</div>   
+                </div>
+                <div class="row ml-3">
+                    <p class="text-muted">Område: </p> <div class="tab">{{event.area}}</div>   
+                </div>
+                <div class="row ml-3">
+                    <p class="text-muted">Vart: </p> <div class="tab">{{event.meetingPoint}}</div>   
+                </div>
+                <div class="row ml-3">
+                    <p *ngIf="event.noOfParticipants != 0" class="text-muted">Extra medverkande: </p>
+                    <div  *ngFor="let item of event.participants | keyvalue">
+                        <div class="t"><a routerLink="/users/{{item.key}}"> {{item.value}} ·</a></div>
+                    </div> 
+                </div>
+                <div class="border-bottom pt-2"></div>
+                <div class="row ml-3 pt-4 pb-1">
+                    <div class="">{{event.description}}</div>   
+                 </div>
 
-            <span class="badge badge-pill badge-light">{{event.eventStartTime}}</span>
+                 <div class="border-bottom pt-2 pb-2"></div>
 
-            <span class="badge badge-pill badge-light">{{event.sport}}</span>
-        </div>
+                   
+            <div *ngIf="!event.creator" class="text-center pt-4">
+                    <button *ngIf="event.requestStatus === null || event.maxParticipants === event.noOfParticipants" class="btn btn-lg btn-outline-primary" (click)="open()">Skicka medverkande förfrågan</button>
+                    <div *ngIf="event.requestStatus != null">
+                        <button *ngIf="event.requestStatus === 'ACCEPTED'" class="btn btn-lg btn-outline-success">Godkänd</button>
+                        <button *ngIf="event.requestStatus === 'DENIED'" class="btn btn-lg btn-outline-dark">Nekad</button>
+                        <button *ngIf="event.requestStatus === 'PENDING'" class="btn btn-lg btn-outline-info">Förfrågan hanteras</button>
+                        <button *ngIf="event.requestStatus === 'CANCELLED'" class="btn btn-lg btn-outline-danger">Evenemanget inställt></button>
+                        <button *ngIf="event.requestStatus === 'LEFT'" class="btn btn-lg btn-warning">Lämnat evenemanget</button>
+                     </div>
+
+            </div> 
+            <div *ngIf="event.creator" class="text-center pt-4">
+                <button class="btn btn-lg btn-outline-dark" routerLink="/mina-sidor/events/{{event.eventNumber}}">Editera evenemang</button>
+            </div>  
     </div>
 </div>
+</div>
+
 
 
 <app-comment-list></app-comment-list>

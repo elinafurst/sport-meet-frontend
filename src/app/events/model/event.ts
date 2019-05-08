@@ -1,3 +1,10 @@
+export interface EventPage{
+
+    totalPages: number
+    totalElements: number
+    dtos: Event[]
+}
+
 export interface Event {
     eventNumber: string
     name: string
@@ -5,7 +12,6 @@ export interface Event {
     sport: string
     eventStartDate: string
     eventStartTime: string
-    maxParticipants: number
     noOfParticipants: number
     active: boolean
     city: string
@@ -20,7 +26,6 @@ export class EventForm {
     sport: string
     eventStartDate: string
     eventStartTime: string
-    maxParticipants: number
     byUnit: string
     city: string
     area: string
@@ -31,6 +36,61 @@ export class EventForm {
     }     
 }
 
+export class RequestForm {
+    eventNumber: string
+    message: string
+
+    public constructor(init?: Partial<RequestForm>) {
+        Object.assign(this, init);
+    } 
+}
+
+export class RequestDetails {
+    requestNumber: string
+    requestStatus: number
+    event: {[key:number]:string}
+    sender: {[key:number]:string}
+    receiver: {[key:number]:string} 
+    messages: Message[]
+    isRequester: boolean
+    isRead: boolean
+}
+
+export class Request {
+    requestNumber: string
+    requestStatus: number
+    event: {[key:number]:string}
+    sender: {[key:number]:string}
+    receiver: {[key:number]:string} 
+    message: Message
+    isRequester: boolean
+    isRead: boolean
+}
+
+export class RequestAnwer {
+    isApproved: boolean;
+
+    public constructor(init?: Partial<RequestAnwer>) {
+        Object.assign(this, init);
+    } 
+}
+
+export interface Message {
+    messageNumber: string
+    message: string
+    timeStamp: string
+    author: {[key:number]:string}
+    isAuthorOfMessage: boolean
+    isRead: boolean
+}
+
+export class MessageForm {
+    message: string
+    public constructor(init?: Partial<MessageForm>) {
+        Object.assign(this, init);
+    } 
+}
+
 export interface EventDetails {
     eventNumber: string
     name: string
@@ -38,14 +98,16 @@ export interface EventDetails {
     sport: string
     eventStartDate: string
     eventStartTime: string
-    maxParticipants: number
     noOfParticipants: number
     active: boolean
     city: string
     area: string
+    meetingPoint: string
     participants: {[key:number]:string}
     createdBy:  {[key:number]:string}
     byUnit: {[key:number]:string}
+    isCreator: boolean
+    requestStatus:string
     comments: Comment[]
 }
 
@@ -64,4 +126,21 @@ export class CommentForm {
     public constructor(init?: Partial<CommentForm>) {
         Object.assign(this, init);
     }  
+}
+
+export class EventFilter {
+    sport: string
+    city: string
+    fromDate: string
+    toDate: string
+    area: string
+
+    public constructor(init?: Partial<EventFilter>) {
+        Object.assign(this, init);
+    }  
+}
+
+export interface Location {
+    city: string
+    areas: string[]
 }

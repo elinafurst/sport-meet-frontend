@@ -1,64 +1,90 @@
-<div class="row">
-    <div class="col-sm-6 offset-sm-3">
-        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label>Namn*</label>
-                <input formControlName="name" type="text" class="form-control" />
+
+<div class="wrapper-form">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <div class="card-header text-center">
+                <h3>Skapa evenemang</h3>
             </div>
-            <div class="form-group">
-                <select class="custom-select" formControlName="sport">
-                    <option value="" disabled>Typ av sport</option>
-                    <option *ngFor="let sport of sports" [ngValue]="sport">{{sport}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Beskrivning*</label>
-                <input formControlName="description" type="text" class="form-control" >
-            </div>
-            Hämta från api sen
-            <div class="form-group">
-                <select class="custom-select" (change)="changeCity($event)" formControlName="city">
-                    <option value="" disabled>Välj stad</option>
-                    <option *ngFor="let city of cities" [ngValue]="city">{{city}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Hall eller plan</label>
-                <input formControlName="meetingPlace" type="text" class="form-control" >
-            </div>
-            <div class="form-group">
-                <select class="custom-select" formControlName="maxParticipants">
-                    <option value="" disabled>Antal spelare sökes</option>
-                    <option *ngFor="let maxNumber of maxNumbers" [ngValue]="maxNumber">{{maxNumber}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <select class="custom-select" formControlName="byUnit">
-                <option value="" disabled>Välj om eventet är del av grupp</option>
-                <option *ngFor="let myUnit of myUnits  | keyvalue" [ngValue]="myUnit.key">{{myUnit.value}}</option>
-                </select>
-            </div>
-            Ska ej vara input tillfälliga
-            <div class="form-group">
-                <label>Datum</label>
-                <input formControlName="eventStartDate" type="text" class="form-control" >
-            </div>
-            <div class="form-group">
-                <label>Tid</label>
-                <input formControlName="eventStartTime" type="text" class="form-control" >
-            </div>
-            <div class="form-group">
-                <label>Area</label>
-                <input formControlName="area" type="text" class="form-control" >
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Skapa grupp</button>
-            </div>
-        </form>    
+            <div class="card w-80">
+                <div class="card-body p-5">
+                    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label><b>Rubrik<sup>*</sup></b></label>
+                            <input formControlName="name" type="text" class="form-control" />
+                            <div class="error" *ngIf="submitted && name.errors?.required">
+                                Rubrik saknas
+                            </div>
+                        </div>
+                        <div class="form-group">                    
+                            <label><b>Sport<sup>*</sup></b></label>
+                            <select class="custom-select" formControlName="sport">
+                                <option value="" disabled>Välj typ av sport</option>
+                                <option *ngFor="let sport of sports" [ngValue]="sport">{{sport}}</option>
+                            </select>
+                            <div  class="error" *ngIf="submitted && sport.errors?.required">
+                                Typ av sport saknas
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Beskrivning<sup>*</sup></b></label>
+                            <textarea formControlName="description" type="text" class="form-control" ></textarea>
+                            <div class="error" *ngIf="submitted && description.errors?.required">
+                                Beskrivning saknas
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Område: </b> </label><label class="tab">{{defaultCity}}</label>
+                            
+                            <select class="custom-select" formControlName="area">
+                                <option value="" disabled>Välj område</option>
+                                <option *ngFor="let area of areas" [ngValue]="area">{{area}}</option>
+                            </select>
+                            <div  class="error" *ngIf="submitted && area.errors?.required">
+                                Område saknas
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label><b>Hall/Plan</b></label>
+                            <input formControlName="meetingPoint" type="text" class="form-control" >
+                        </div>
+                    
+                        <div class="form-group">
+                                <label><b>Välj datum och tid<sup>*</sup></b></label>
+                                <dl-date-time-picker
+                                startView="day"
+                                maxView="year"
+                                minView="minute"
+                                minuteStep="5"
+                                [(ngModel)]="selectedDate"
+                                (change)="onSelectDate($event)"
+                            >
+                            </dl-date-time-picker>
+                            <div class="error" *ngIf="submitted && eventStartTime.errors?.required">
+                                Datum och tid saknas
+                            </div>
+                            <div class="row text-center ml-auto">
+                                <label><b>Vald tid och datum:</b></label>
+                                <span class="tab">{{choosenDate}} {{choosenTime}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">                                
+                            <label><b>Är eventet del av grupp?</b></label>
+                            <select class="custom-select" formControlName="byUnit">
+                                <option value="" disabled>Välj grupp</option>
+                                <option *ngFor="let myUnit of myUnits  | keyvalue" [ngValue]="myUnit.key">{{myUnit.value}}</option>
+                            </select>
+                        </div>
+                    
+                        <div class="form-group text-center"> 
+                            <div class="error">{{errorMessage}}</div>
+                            <button type="submit" class="btn btn-success">Publicera och hitta spelare</button>
+                        </div>
+                    </form>
+                </div>
+            </div>    
+        </div>
     </div>
 </div>
-          
-    
-<div *ngFor="let item of myUnits | keyvalue">
-    <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
 </div>

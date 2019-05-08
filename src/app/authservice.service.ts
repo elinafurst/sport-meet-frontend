@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { User } from './users/model/user';
+import ServiceUtils from './service-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,13 @@ export class AuthserviceService {
 
 
   constructor(private http: HttpClient, private router: Router) { }
-  
-  get_headersToken(): HttpHeaders {
-      var access_token = sessionStorage.getItem('access_token');
-      return new HttpHeaders().set('Authorization', 'Bearer ' + access_token);
-  }
+
+  /**
+   * Checks if token has expired without making request to server.
+   * If token har expired it will try to get a new token by the refresh token
+   */
 
   isAuthenticated(): boolean {
-    //console.log("isAuthenticated");
     const token = sessionStorage.getItem('access_token');
     if(token == undefined){
       return false;
@@ -41,17 +41,16 @@ export class AuthserviceService {
     if(expiresIn == undefined){
       return false;
     }
-    return !(+expiresIn < new Date().valueOf());
 
-     
-    // if token is expired try to get new one
-      //TODO make flow more classii
-   /*   this.authservice.tryRefreshToken();
-      if(this.authservice.isAuthenticated()){
+    if(+expiresIn < new Date().valueOf()) {
+      if(this.tryRefreshToken()){
         return true;
-      } */
-    
-    //compare token expiration
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 
 signUp(user: User): Observable<any> {
@@ -79,20 +78,29 @@ login(username: string, password: string) {
     })
   }
 
- 
 
  logOut(){
     var url = this.baseUrl + this.logoutUrl;   
-    console.log(url);
-    console.log(sessionStorage.getItem('access_token')) ;
-    console.log(this.get_headersToken());
-    this.http.post(url, {headers: this.get_headersToken()});
+    var _headersToken = ServiceUtils.get_headersToken();
+
+    this.http.delete(url, {headers: _headersToken}).subscribe((data) => {
+      console.log(data);
+    });
     this.removeTokens();
     this.router.navigate(["/"]);
   }
 
-  tryRefreshToken(){
+  /**
+   * Tries to get new access token through refresh token,  if succeeded user is still logged in, else redirectet to log-in page
+   */
+  tryRefreshToken(): boolean{
     console.log("try refresh");
+    const refresh_token = sessionStorage.getItem('refresh_token');
+
+    if(refresh_token == undefined){
+      return false;
+    }
+
     var url = this.baseUrl + this.tokenUrl;
 
     const params = new HttpParams({
@@ -102,15 +110,19 @@ login(username: string, password: string) {
       }
     });
 
+    let success;
+
     this.http.post(url, params, {headers: this._headersAuth}).subscribe((data) => {
         this.setTokens(data);
+        success= true;
       },
       (err) =>{
           this.removeTokens();            
-          this.router.navigate["/login"];
-          //TODO notis
+          success= false;
       })
+      return success;
   }
+
 
   removeTokens(){
     sessionStorage.clear();

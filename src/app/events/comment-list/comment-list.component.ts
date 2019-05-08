@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentForm } from '../model/event';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthserviceService } from 'src/app/authservice.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -14,8 +15,11 @@ export class CommentListComponent implements OnInit {
   private commentForm: any;
   private comments;
   private comment: CommentForm;
+  private errorMessage = '';
+  private submitted = false;
+
   
-  constructor(private formBuilder: FormBuilder, private eventService: EventService,private route: ActivatedRoute, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private eventService: EventService,private authService: AuthserviceService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,14 +27,19 @@ export class CommentListComponent implements OnInit {
       this.eventNumber = param.get('id');
       this.eventService.getComments(this.eventNumber).subscribe((data) => {
         this.comments = data;
+        console.log(this.comments);
       })
     })
   }
 
   initForm(){
     this.commentForm = this.formBuilder.group({
-      comment:['']
+      comment:['', [Validators.required]]
     })
+  }
+
+  get name() {
+    return this.commentForm.get('comment');
   }
 
   deleteComment(id: any){
@@ -38,28 +47,40 @@ export class CommentListComponent implements OnInit {
     this.eventService.deleteComment(id).subscribe(() => {
       console.log("success")
       this.ngOnInit();
+    }, (err) => {
+      this.handleUnauthorized(err);
+      this.errorMessage = 'Gick inte att att ta bort kommentaren';
 
-      //reload
-    },(err) => {
-      console.log(err);
-          //TODO
-    })
+    });
+  }
+
+  private handleUnauthorized(err: any) {
+    if (err.status === 401) {      
+      let success = this.authService.tryRefreshToken();
+      if (success) {
+        this.ngOnInit();
+      } else {
+        this.router.navigate(["/logga-in"]);
+      }
+    }
   }
 
   onSubmit(){
     console.log(this.commentForm.value);
+    this.submitted = true;
+    if (this.commentForm.invalid) {
+      return;
+    }
     this.comment = new CommentForm(this.commentForm.value);
-    console.log(this.comment)
 
     let id = this.eventNumber;
     this.eventService.createComment(id, this.comment).subscribe(() => {
-      console.log("Success")
-      //TODO unkown error men server ser fin ut.
+      console.log("sucess")
       this.ngOnInit();
     }, (err) => {
-      console.log(err);
-          //TODO
-    })
+      this.handleUnauthorized(err);
+      this.errorMessage = 'Gick inte att posta kommentaren';
+    });
     
   }
 

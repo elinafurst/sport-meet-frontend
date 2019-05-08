@@ -1,33 +1,45 @@
-<div class="container">
-    <h3>Kommentarer</h3>
-    <div class="row" *ngFor="let comment of comments">
-       <div class="col-sm-12 col-md-8 mb-4">
-            <div class="card">
+<div class="wrapper-list">
+<div class="container pb-5 pt-3">
+    <h3 class="ml-2" *ngIf="comments">Kommentarer</h3>
+    <div class="card w-55 mt-3" *ngFor="let comment of comments">
+      
                 <div class="card-body pr-5">
+                    <span class="" *ngIf="comment.owner" (click)="deleteComment(comment.commentNumber)" style="float:right;margin:0 0 0 auto;">X</span>
                     <div *ngFor="let item of comment.by | keyvalue">
                         <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
                     </div>
+                    <p class="card-text"><small class="text-muted">{{comment.date}} {{comment.time}}</small></p>
+
                     <p class="card-text">
                     {{comment.comment}}
                     </p>
                     <div>
-                        <span class="badge badge-pill badge-warning" *ngIf="comment.owner" (click)="deleteComment(comment.commentNumber)">
-                                X
-                        </span>
-                        <span class="badge badge-pill badge-light">{{comment.date}}</span>
-                        <span class="badge badge-pill badge-light">{{comment.time}}</span>
-                    </div>
-                </div>
+                        
+                    
+
             </div>
         </div>
     </div>
- <div class="container">
+
+    
+     <div class="card w-55 mt-3">
+     <div class="card-footer text-muted text-center">
+
     <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <textarea formControlName="comment" placeholder="Skriv din kommentar här" class="form-control" rows="4" cols="50"></textarea>
+        <div class="text-center">
+            {{errorMessage}}
+        </div>
+        <div class="error" *ngIf="submitted && comment.errors?.required">
+            Saknas kommentar
         </div>
         <div class="form-group">
+            <textarea formControlName="comment" placeholder="Fråga något.." class="form-control" rows="4" cols="50"></textarea>
+        </div>
+        <div class="form-group" style="float:right;margin:0 0 0 auto;">
             <button type="submit" class="btn btn-primary">Skicka</button>
         </div>
     </form>
+
+</div>
  </div>
+</div>

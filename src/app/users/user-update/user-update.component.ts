@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDetails, User } from '../model/user';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators'; 
+import { Router } from '@angular/router';
+import { AuthserviceService } from 'src/app/authservice.service';
 
 @Component({
   selector: 'app-user-update',
@@ -16,8 +18,9 @@ export class UserUpdateComponent implements OnInit {
   private userForm: User;
   private editable: boolean;
   private updateUserForm: any;
+  private submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private authService: AuthserviceService) { }
 
   ngOnInit() {
     this.initForm();
@@ -25,8 +28,9 @@ export class UserUpdateComponent implements OnInit {
     this.editable = false;
 
     this.userService.getActiveUser().subscribe((data) => {
-      console.log(data);
-    })
+    }, (err) => {
+      this.handleUnauthorized(err);
+    });
     this.user = this.userService.getActiveUser().pipe(
       tap(user => this.updateUserForm.patchValue(user))
     );
@@ -44,11 +48,15 @@ export class UserUpdateComponent implements OnInit {
 
   initForm(){
      this.updateUserForm = this.formBuilder.group({
-      username:[''],
+      username:['', [Validators.required]],
       firstname: [''],
       lastname: [''],
       description:['']
     });
+  }
+
+  get username(){
+    return this.updateUserForm.get('username');
   }
 
   isEditable(): boolean {
@@ -57,15 +65,30 @@ export class UserUpdateComponent implements OnInit {
 
   onSubmit(){
     console.log(this.updateUserForm.value);
+    this.submitted = true;
+    if (this.updateUserForm.invalid) {
+      return;
+    }
+
     this.userForm = new User(this.updateUserForm.value);
     this.userService.updateUser(this.userForm).subscribe(() => {
       console.log("Success");
       this.ngOnInit();
     }, (err) => {
-      console.log(err);
+      this.handleUnauthorized(err);
     }
     )
     console.log(this.userForm);
 
+  }
+  private handleUnauthorized(err: any) {
+    if (err.status === 401) {      
+      let success = this.authService.tryRefreshToken();
+      if (success) {
+        this.ngOnInit();
+      } else {
+        this.router.navigate(["/logga-in"]);
+      }
+    }
   }
 }

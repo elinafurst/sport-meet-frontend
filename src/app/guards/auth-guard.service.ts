@@ -10,12 +10,15 @@ export class AuthGuardService implements CanActivate {
 
   constructor(private authservice: AuthserviceService, private router: Router) { }
 
+  /**
+   * Get called by app-routing.module.ts check if is user is Autenticated, CanActiveted in routes needs log in
+   */
   canActivate()  {
     if(this.authservice.isAuthenticated()){
       return true;
     } else {    
       console.log("REDIRECT");
-      this.router.navigate(["login"]);
+      this.router.navigate(["/logga-in"]);
       return false; 
     }
 

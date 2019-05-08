@@ -2,3 +2,7 @@
     font-family: PaytoneOne-Regular; 
     color: black;
 }
+
+.active {
+    border-bottom: 3px solid green;
+}

@@ -1,52 +1,65 @@
-<div>
-  <h2>Skapa ett konto</h2>
+<div class="wrapper-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card-header text-center">
+                    <h3>Skapa konto</h3>
+                </div>
+                <div class="card w-80">
+                    <div class="card-body p-5">
+                        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label class="">Email<sup>*</sup></label>
+                                <input formControlName="email" type="text" class="form-control" />
+                                <div class="error" *ngIf="submitted && f.email.errors?.required">
+                                    Email saknas
+                                </div>
+                                <div class="error" *ngIf="submitted && f.email.errors?.email">
+                                    Email felaktig format
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label class="">Användarnamn<sup>*</sup></label>
+                                <input formControlName="username" type="text" class="form-control" />
+                                <div class="error" *ngIf="submitted && f.username.errors?.required">
+                                    Användarnamn saknas
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="">Lösenord<sup>*</sup></label>
+                                <input formControlName="password" type="text" class="form-control">
+                                <div class="error" *ngIf="submitted && f.password.errors?.required">
+                                    Lösenord saknas
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="">Namn</label>
+                                <input formControlName="firstname" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="">Efternamn</label>
+                                <input formControlName="lastname" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="" >Beskrivning</label>
+                                <input formControlName="description" type="text" class="form-control" />
+                            </div>
+                            <div class="error text-center" *ngFor="let error of errorMessages">
+                                {{error}}
+                            </div>    
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Skapa konto</button>
+                            </div>
+                            
+                        </form>
+                        <div class="text-center">
+                            <span>Redan ett konto? <a routerLink="/logga-in"><u>Logga in</u></a></span>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-8 offset-sm-3">
-        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Email*</label>
-                <div class="col-sm-10" >
-                    <input formControlName="email" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Lösenord*</label>
-                <div class="col-sm-10" >
-                    <input formControlName="password" type="text" class="form-control" >
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Användarnamn*</label>
-                <div class="col-sm-10" >
-                    <input formControlName="username" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Namn</label>
-                <div class="col-sm-10" >
-                    <input formControlName="firstname" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Efternamn</label>
-                <div class="col-sm-10" >
-                    <input formControlName="lastname" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label" >Beskrivning</label>
-                <div class="col-sm-10" >
-                    <input formControlName="description" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Skapa konto</button>
-            </div>
-        </form>    
-		<span>Redan ett konto? <a routerLink="/login"><u>Logga in</u></a></span>
-	</div>
-</div>
-        
-  

@@ -19,6 +19,18 @@ import { CommentListComponent } from './events/comment-list/comment-list.compone
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { EventFilterComponent } from './events/event-filter/event-filter.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import ServiceUtils from './service-utils';
+import { UnitOwnerComponent } from './units/unit-owner/unit-owner.component';
+import { RouterModule } from '@angular/router';
+import { RequestListComponent } from './events/requests/request-list/request-list.component';
+import { EventMessagePopupComponent } from './events/requests/event-message-popup/event-message-popup.component';
+import { RequestDetailsComponent } from './events/requests/request-details/request-details.component';
+import { EventOwnerComponent } from './events/event-owner/event-owner.component';
+import { EventUpdateComponent } from './events/event-update/event-update.component';
+import { UnitUpdateComponent } from './units/unit-update/unit-update.component';
+
 
 @NgModule({
   declarations: [
@@ -35,17 +47,31 @@ import { EventFilterComponent } from './events/event-filter/event-filter.compone
     CommentListComponent,
     LandingPageComponent,
     UserUpdateComponent,
-    EventFilterComponent
+    EventFilterComponent,
+    UnitOwnerComponent,
+    EventMessagePopupComponent,
+    RequestListComponent,
+    RequestDetailsComponent,
+    EventOwnerComponent,
+    EventUpdateComponent,
+    UnitUpdateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    NgbModule,
+    NgbModule.forRoot(),
+    DlDateTimeDateModule,  
+    DlDateTimePickerModule,    
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ServiceUtils],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    EventMessagePopupComponent
+  ]
 })
 export class AppModule { }

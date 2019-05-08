@@ -1,11 +1,79 @@
-<h3>Admins</h3>
+<div class="container pt-5">
+        <div class="card w-60 mb-3">
+            <img class="card-img-top" src="../../../assets/images/soccer.jpg" alt="Card image cap"> 
+                <div class="card-body"> 
+                        <div style="float:right;margin:0 0 0 auto;">
+                                <button *ngIf="!unit.member" class="btn btn-lg btn-outline-primary" (click)="onFollowUnit()" >Följ gruppens event</button>
+                                <button *ngIf="unit.member" class="btn btn-lg btn-success" (click)="onUnFollowUnit()">Avfölj</button>  
+                        </div>
+                    <h5 class="card-title">{{unit.name}}</h5>                    
+                    <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> 
+                                <label><b>Admins: </b></label> 
+                                <div *ngFor="let item of unit.admins | keyvalue">
+                                        <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+                                    </div>
+                            </li>
+                            <li class="list-group-item"> 
+                                    <label><b>Antal följare: </b></label> {{unit.noOfMembers}}
+                            </li>
+                        </ul> 
+                        <div class="pt-4 pb-4">  
+                            <p class="card-text">{{unit.description}}</p>
+                        </div>  
+                </div>
+        </div>
+    </div>
+<div class="wrapper-list">
+    <div class="container pt-3">
+        <h2 class="headers border-bottom mb-4">Gruppens evenemang</h2>
+        <div>{{errorMessage}}</div>
+        <div class="row">
+            <div class="col-12 col-md-6 mb-4 " *ngFor="let event of events">
+                <a routerLink="/events/{{event.eventNumber}}" class="card">
+                    <div class="card-body"> 
+                            <div class="event-border">
+                            <div class="row ml-3 mb-2">
+                                <h5 class="card-title">{{event.name}}</h5>
+                            </div>
+                        </div>
+                            <div class="border-top pb-2"></div>              
 
-<div *ngFor="let item of unit.admins | keyvalue">
-    <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
-</div>
-
-<h3>Members</h3>
-
-<div *ngFor="let item of unit.members | keyvalue">
-    <span><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
+                            <div class="row  ml-3 ">
+                                    <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDate}} {{event.eventStartTime}}</div>   
+                                </div>
+                            <div class="row ml-3" >
+                                <p class="text-muted">Sport: </p> <div class="tab">{{event.sport}}</div>   
+                            </div>
+                            <div class="row ml-3">
+                                <p class="text-muted">Område: </p> <div class="tab">{{event.area}}</div>   
+                            </div>
+                            <div class="row ml-3">
+                                <p class="text-muted">Vart: </p> <div class="tab">{{event.meetingPoint}}</div>   
+                            </div>
+                            <div class="row ml-3">
+                                <p class="text-muted">Tagna platser: </p> <div class="tab">{{event.noOfParticipants}}/{{event.maxParticipants}}</div>   
+                            </div>
+                            <div class="row ml-3">
+                                <p *ngIf="event.noOfParticipants != 0" class="text-muted">Extra medverkande: </p>
+                                <div  *ngFor="let item of event.participants | keyvalue">
+                                    <div class="t"><a routerLink="/users/{{item.key}}"> {{item.value}} ·</a></div>
+                                </div> 
+                            </div>
+                        
+                            <div class="border-bottom pt-2"></div>
+                            <div class="row ml-3 pt-4 pb-1">
+                                <div class="">{{event.description}}</div>   
+                            </div>
+            
+                        </div> 
+                    </a>                
+                </div>
+            </div>
+        </div>
+        <div *ngIf="totalPages != null" class="container text-center"> 
+            <div class="pagination" *ngFor="let page of pageArray; let i of index;">
+                <a (click)="setPage([i])">{{page + 1}}</a>
+            </div>                    
+    </div>
 </div>

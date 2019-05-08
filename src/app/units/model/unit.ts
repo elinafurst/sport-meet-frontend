@@ -1,3 +1,10 @@
+export interface UnitPage {
+
+    totalPages: number
+    totalElements: number
+    dtos: Unit[]
+}
+
 export class UnitForm {
     name: string
     description: string
@@ -12,6 +19,7 @@ export interface Unit {
     name: string
     description: string
     noOfMembers: number
+    noOfEvents: number
 }
 
 export interface UnitDetails {
@@ -21,4 +29,5 @@ export interface UnitDetails {
     admins: {[key:number]:string}
     members: {[key:number]:string}
     noOfMembers: number
+    isMember: boolean
 }
