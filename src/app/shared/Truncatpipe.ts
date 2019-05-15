@@ -6,7 +6,7 @@ import { Pipe } from '@angular/core';
 export class ListPipe {
     transform(value: string, args: string) : string {
     
-      let limit = args ? parseInt(args, 170) : 170;
+      let limit = args ? parseInt(args, 155) : 155;
       let trail = '...';
   
       return value.length > limit ? value.substring(0, limit) + trail : value;

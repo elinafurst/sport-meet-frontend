@@ -1,0 +1,57 @@
+<div class=wrapper id="inbox">
+    <div class="container ">
+        <div class="row ">
+            <div class="col-sm-8 offset-sm-2">
+                    <div class="card-border">
+                    
+                        <div class="scrollable inbox-border  box">
+                                <div class="border-bottom p-2">
+                                        <h6>Senaste medelanden</h6>
+                                    </div>
+                            <div class="card request-card" *ngFor="let request of requests">
+                                <div class="card-body p-4">
+                                        
+                                    <div >
+                                        <span class="badge badge-info" *ngIf="!request.requester" style="float:right;margin:0 0 0 auto;">Ingående förfrågan</span>
+                                        <span class="badge badge-dark" *ngIf="request.requester" style="float:right;margin:0 0 0 auto;">Utgående förfrågan</span>
+                                    </div>
+                                    <div *ngIf="request.requester">
+                                        <div  *ngFor="let item of request.receiver | keyvalue">
+                                            <div class="card-subtitle text-muted"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></div>
+                                        </div>                   
+                                    </div>
+                                    <div *ngIf="!request.requester">
+                                        <div  *ngFor="let item of request.sender | keyvalue">
+                                            <div class="card-subtitle mb-2 text-muted"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></div>
+                                        </div>
+                                    </div>
+                                    <a routerLink="/inbox/{{request.requestNumber}}">
+                                        <div class="card-subtitle mb-2 timestamp">{{request.message.timeStamp}}</div>
+                                            <div  *ngIf="request.message.message != ''">
+                                                <span class="text-muted" *ngIf="request.message.authorOfMessage" style="display: inline;">Du:</span> <span  class="card-text" > {{request.message.message | requestLimitTo:limit}}</span>
+                                            </div>
+                                    </a>
+                                 <div class="row text-muted bottom-info"> 
+                                    <div >
+                                        <label class="tab label">Status:</label>
+                                        <span class="tab" *ngIf="request.requestStatus === 'PENDING'">Obesvarad</span>
+                                        <span class="tab" *ngIf="request.requestStatus === 'ACCEPTED'">Godkänd</span>
+                                        <span class="tab" *ngIf="request.requestStatus === 'DENIED'">Nekad</span>
+                                        <span class="tab" *ngIf="request.requestStatus === 'CANCELLED'">Inställt</span>
+                                        <span class="tab" *ngIf="request.requestStatus === 'LEFT'">Lämnat evenemanget</span>
+                                    </div> 
+                                    <div  class=""  *ngFor="let item of request.event | keyvalue">
+                                        <div class="">
+                                            <a routerLink="/events/{{item.key}}"><label class=" label tab">Evenemang:</label> {{item.value}}</a>
+                                        </div>
+                                    </div>
+                                </div>    
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

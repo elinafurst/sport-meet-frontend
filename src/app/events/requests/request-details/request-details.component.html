@@ -1,0 +1,85 @@
+<div class=wrapper id="inbox">
+
+<div class="container">
+        <div class="row ">
+                <div class="col-sm-8 offset-sm-2">
+
+    <div class="card" >
+    
+        <div class="border-bottom p-2">
+                <span><a routerLink="/inbox">Tillbaka</a></span>
+                <div  class="text-center" *ngFor="let item of request.event | keyvalue">
+                        <div class="card-subtitle mb-2 text-muted"><a routerLink="/events/{{item.key}}">{{item.value}}</a></div>
+                </div>
+
+            </div>
+        <div class="scrollable box">
+            <div class="pt-2"></div>
+            <div  *ngFor="let message of request.messages">
+                <div class="incoming_msg" *ngIf="!message.authorOfMessage && message.message">
+                        <div class="received_msg">
+
+                        <div class="received_withd_msg">
+                            <div  *ngFor="let item of message.author | keyvalue">
+                                <a routerLink="/users/{{item.key}}"> {{item.value}}</a>
+                            </div>
+                            <p>{{message.message}}</p>
+                            <span class="time_date">{{message.timeStamp}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="outgoing_msg pr-2" *ngIf="message.authorOfMessage && message.message">
+                    <div class="sent_msg">
+                        <p>{{message.message}}</p>
+                        <span class="time_date_sent row">{{message.timeStamp}}</span> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center">
+            <div *ngIf="request.requestStatus === 'PENDING'">
+                <div>Obsesvarad</div>
+                <div class="pt-2 pb-2">
+                <div *ngIf="!request.requester">                    
+                    <button  (click)="onDenied()" class="btn btn-danger mr-1">Avböj</button>
+                    <button (click)="onAccepted()" class="btn btn-success ml-1">Godkänn</button>
+                </div>
+                <div *ngIf="request.requester">
+                    <div  *ngFor="let item of request.event | keyvalue">
+                        <button (click)="onCancelRequest(item.key)" class="btn btn-warning">Avbryt förfrågan</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div *ngIf="request.requestStatus === 'ACCEPTED'">
+                <div>Godkänd</div>
+               
+            </div>   
+            <div *ngIf="request.requestStatus === 'DENIED'">
+                <div>Nekad</div>
+            </div>
+            <div *ngIf="request.requestStatus === 'LEFT'">
+                <div>Lämnat eventet</div>
+            </div>
+            <div *ngIf="request.requestStatus === 'CANCELLED'">
+                <div>Eventet är inställt</div>
+            </div>
+            <form class="form" [formGroup]="messageForm" (ngSubmit)="onSubmit() ">
+                    
+                <div class="form-group">
+                    <textarea placeholder="Skriv ett medelande" formControlName="message" type="text" class="form-control form-control-no-border" ></textarea> 
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Skicka</button>
+                </div>
+            </form>
+    </div>
+
+    </div>
+        
+    </div>
+    </div>
+
+    
+</div>
+</div>

@@ -1,0 +1,45 @@
+<section class="section">
+    <div class="container-fluid box-fluid">
+        <div class="row box-info no-gutters">
+            <div class="col-md-6">
+                <div>
+                    <img alt="Sport bild" class="img-fluid" src="https://images.unsplash.com/photo-1538117546660-8eee17c37064?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0 pr-5">
+                <div class="row">
+                    <h2>Mina grupper</h2>
+                    <p class="margin-top-s">Här finns grupper du är admin över. balblalbalblabla ffrfr</p>
+                    <button routerLink="/grupper/registera/form" class="btn" id="unit-button">Skapa ny grupp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="wrapper-list">
+
+<div class="container-fluid box-fluid pt-5">
+            <h2 class="headers border-bottom">Grupper</h2>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-4 " *ngFor="let unit of units">
+                        <a routerLink="/grupper/{{unit.unitNumber}}" class="card p-3">
+                        <div class="card-body pr-5 ">
+                            <h3 class="card-title headers">{{unit.name}}</h3>
+                            <p class="card-text event">
+                                {{unit.description | listLimitTo}}
+                            </p>
+                        </div> 
+                        </a> 
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> 
+                                <label><b>Antal följare: </b></label> {{unit.noOfMembers}}
+                            </li>
+                            <li class="list-group-item"> 
+                                <label><b>Kommande event: </b></label> {{unit.noOfEvents}}
+                            </li>
+                        </ul>                 
+                    </div>
+            </div>
+    </div>
+
+</div>

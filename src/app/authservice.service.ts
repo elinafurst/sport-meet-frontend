@@ -44,15 +44,7 @@ export class AuthserviceService {
       return false;
     }
 
-    if(+expiresIn < new Date().valueOf()) {
-      if(this.tryRefreshToken()){
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
+    return +expiresIn < new Date().valueOf();
   }
 
 signUp(user: User): Observable<any> {
@@ -178,11 +170,15 @@ login(username: string, password: string): boolean {
     sessionStorage.clear();
   }
 
+  /**
+   * Sets access token and calculates expires in
+   */
+
   setTokens(data: any){    
     var expiresDateTime = new Date().setUTCSeconds(data.expires_in);
 
     sessionStorage.setItem('access_token', data.access_token );
-    sessionStorage.setItem('refresh_token', data.refresh_token);
     sessionStorage.setItem('expires_in', expiresDateTime.valueOf().toString());
+    //sessionStorage.setItem('refresh_token', data.refresh_token);
   }
 }

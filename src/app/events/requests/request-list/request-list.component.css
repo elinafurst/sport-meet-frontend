@@ -1,0 +1,46 @@
+
+
+.greyedOut {
+    background-color:grey;
+}
+
+.scrollable {
+    max-height: 700px;
+    overflow-y: auto;
+
+  }
+
+  .border-bottom {
+    border-bottom: 2px solid #73AD21;
+
+  }
+
+  .timestamp {
+    color: #747474;
+    font-size: 12px;
+  }
+
+  .label {
+    color: #747474;
+
+  }
+
+  .bottom-info {
+
+  }
+  .request-card:hover {
+    background-color: rgb(241, 241, 241);
+  }
+
+  .card-footer {
+    background-color: white !important;
+}
+
+  .h3 {
+      font-size: 150%;
+  }
+
+  .box {
+    height:700px;
+    background-color: white;
+  }
