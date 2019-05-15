@@ -1,8 +1,11 @@
+import { EventFilter } from './../model/event';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { EventService } from './../event.service';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { AuthserviceService } from 'src/app/authservice.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-event-list',
@@ -13,6 +16,15 @@ export class EventListComponent implements OnInit {
   private events;
   private disableFilter;
   private errorMessage;
+  private filterForm;
+  private eventFilter: EventFilter;
+  private sports;
+  private areas;
+  private defaultCity: any = 'Stockholm'
+  private advancedSearch:boolean = false;
+  private selectedToDate;
+  private selectedFromDate
+  private error;
   private page: number = 0;
   private totalPages;
   private pageArray;
@@ -22,13 +34,26 @@ export class EventListComponent implements OnInit {
   private showUnitButton = true;
   private showFilterButton = true;
   private hasFiltred = false;
-  private eventFilter;
 
-  constructor(private eventService: EventService, private router: Router, private authService: AuthserviceService) { }
+  constructor(private eventService: EventService, private router: Router, private authService: AuthserviceService, private formBuilder:FormBuilder) { }
 
   ngOnInit() {
     this.initEvents();
     this.resetBooleans();
+    moment.locale('sv')
+
+    this.eventService.getSports().subscribe((data) => {
+      this.sports = data;
+      console.log(this.sports);
+    });
+
+    this.eventService.getAreas(this.defaultCity).subscribe((data) => {
+      this.areas = data;
+      console.log(data);
+    }, (err) => {
+      console.log(err);
+    })
+    this.initForm();
   }
 
   initEvents() {
@@ -39,6 +64,7 @@ export class EventListComponent implements OnInit {
         this.isListEmpty(err);
     });
   }
+
 
   private isListEmpty(err: any) {
     if (err.status === 404) {
@@ -60,8 +86,6 @@ export class EventListComponent implements OnInit {
     this.pageState();  
   }
 
-
-
   activateFilter(){
     this.filterActive = true;
   }
@@ -78,6 +102,10 @@ export class EventListComponent implements OnInit {
     this.unitsActive = true;
   }
 
+  clearFilter() {
+    console.log("triggerd");
+    this.initForm();
+  }
   removeFilter() {
     this.filterActive = false;
     this.showFilterButton = true;
@@ -87,13 +115,52 @@ export class EventListComponent implements OnInit {
   }
 
   reset() {
-    console.log("RESET");
+   /* console.log("RESET");
      this.resetBooleans();
 
     this.initEvents();
-    this.errorMessage = '';
+    this.errorMessage = '';*/
+    this.ngOnInit();
   }
 
+  
+  initForm(){
+    this.filterForm = this.formBuilder.group({
+      sport:[''],
+      city:[this.defaultCity],
+      fromDate: new FormControl(''),
+      toDate: new FormControl(''),
+      area:['']
+  });
+  }
+
+  onSelectFromDate(event: any){
+    let date = moment(event.value).format("YYYY-MM-DD");
+    this.filterForm.controls['fromDate'].setValue(date);
+    this.selectedFromDate = date;
+  }
+
+  onSelectToDate(event: any) {
+    let date = moment(event.value).format("YYYY-MM-DD");
+    this.filterForm.controls['toDate'].setValue(date);
+    this.selectedToDate = date;
+  }
+
+  onSubmit(){
+    let from = this.filterForm.value.fromDate;
+    let to = this.filterForm.value.toDate;
+    
+    if(from && to){
+      if(from.valueOf() > to.valueOf()){
+        this.error = "Ogiltiga datum. Till datumet måste inträffa efter eller samma datum som från datumet"
+        return;
+      }
+    }
+    this.error= '';
+    console.log(this.filterForm.value.fromDate);
+    this.eventFilter = new EventFilter(this.filterForm.value);
+    this.filterEvents(this.eventFilter)
+  }
 
   filterEvents(eventFilter: any){
     console.log(eventFilter);

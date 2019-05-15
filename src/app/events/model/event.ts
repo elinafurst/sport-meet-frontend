@@ -13,6 +13,7 @@ export interface Event {
     eventStartDate: string
     eventStartTime: string
     noOfParticipants: number
+    eventStartDateTime: string
     active: boolean
     city: string
     area: string
@@ -98,6 +99,7 @@ export interface EventDetails {
     sport: string
     eventStartDate: string
     eventStartTime: string
+    eventStartDateTime: string
     noOfParticipants: number
     active: boolean
     city: string

@@ -1,5 +1,14 @@
 
-.card {
+.card-event {
     height:400px;
 }
 
+#event-info {
+    background-color: #f2f0f3;
+
+}
+
+
+#group-follow {
+    border: #ef936a !important;
+}

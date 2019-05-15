@@ -40,7 +40,7 @@
                             <div class="border-top pb-2"></div>              
 
                             <div class="row  ml-3 ">
-                                    <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDate}} {{event.eventStartTime}}</div>   
+                                    <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDateTime}}</div>   
                                 </div>
                             <div class="row ml-3" >
                                 <p class="text-muted">Sport: </p> <div class="tab">{{event.sport}}</div>   
@@ -51,9 +51,7 @@
                             <div class="row ml-3">
                                 <p class="text-muted">Vart: </p> <div class="tab">{{event.meetingPoint}}</div>   
                             </div>
-                            <div class="row ml-3">
-                                <p class="text-muted">Tagna platser: </p> <div class="tab">{{event.noOfParticipants}}/{{event.maxParticipants}}</div>   
-                            </div>
+                           
                             <div class="row ml-3">
                                 <p *ngIf="event.noOfParticipants != 0" class="text-muted">Extra medverkande: </p>
                                 <div  *ngFor="let item of event.participants | keyvalue">

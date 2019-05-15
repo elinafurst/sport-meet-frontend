@@ -18,7 +18,6 @@ import { EventFormComponent } from './events/event-form/event-form.component';
 import { CommentListComponent } from './events/comment-list/comment-list.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
-import { EventFilterComponent } from './events/event-filter/event-filter.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 import ServiceUtils from './service-utils';
@@ -30,6 +29,9 @@ import { RequestDetailsComponent } from './events/requests/request-details/reque
 import { EventOwnerComponent } from './events/event-owner/event-owner.component';
 import { EventUpdateComponent } from './events/event-update/event-update.component';
 import { UnitUpdateComponent } from './units/unit-update/unit-update.component';
+import { ForgotPasswordComponent } from './users/auth/forgot-password/forgot-password.component';
+import { NewPasswordComponent } from './users/auth/new-password/new-password.component';
+import { RequestPipe, ListPipe } from './shared/Truncatpipe';
 
 
 @NgModule({
@@ -47,14 +49,17 @@ import { UnitUpdateComponent } from './units/unit-update/unit-update.component';
     CommentListComponent,
     LandingPageComponent,
     UserUpdateComponent,
-    EventFilterComponent,
     UnitOwnerComponent,
     EventMessagePopupComponent,
     RequestListComponent,
     RequestDetailsComponent,
     EventOwnerComponent,
     EventUpdateComponent,
-    UnitUpdateComponent
+    UnitUpdateComponent,
+    ForgotPasswordComponent,
+    NewPasswordComponent,
+    RequestPipe,
+    ListPipe
   ],
   imports: [
     BrowserModule,

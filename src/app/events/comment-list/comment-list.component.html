@@ -1,5 +1,7 @@
 <div class="wrapper-list">
 <div class="container pb-5 pt-3">
+        <div class="row ">
+                <div class="col-sm-10 offset-sm-1">
     <h3 class="ml-2" *ngIf="comments">Kommentarer</h3>
     <div class="card w-55 mt-3" *ngFor="let comment of comments">
       
@@ -8,7 +10,7 @@
                     <div *ngFor="let item of comment.by | keyvalue">
                         <span class="badge badge-pill badge-light"><a routerLink="/users/{{item.key}}"> {{item.value}}</a></span>
                     </div>
-                    <p class="card-text"><small class="text-muted">{{comment.date}} {{comment.time}}</small></p>
+                    <p class="card-text"><small class="date_time">{{comment.date}} {{comment.time}}</small></p>
 
                     <p class="card-text">
                     {{comment.comment}}
@@ -39,7 +41,8 @@
             <button type="submit" class="btn btn-primary">Skicka</button>
         </div>
     </form>
-
+</div>
+</div>
 </div>
  </div>
 </div>

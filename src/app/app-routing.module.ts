@@ -1,3 +1,5 @@
+import { NewPasswordComponent } from './users/auth/new-password/new-password.component';
+import { ForgotPasswordComponent } from './users/auth/forgot-password/forgot-password.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { UnitListComponent } from './units/unit-list/unit-list.component';
 import { AuthGuardService } from './guards/auth-guard.service';
@@ -27,6 +29,12 @@ const routes: Routes = [
   },
   {
     path:"logga-in", component: LoginComponent
+  },
+  {
+    path:"password/reset", component: ForgotPasswordComponent
+  },
+  {
+    path:"password/reset/:id", component: NewPasswordComponent
   },
   {
     path:"registrera", component: SignUpComponent

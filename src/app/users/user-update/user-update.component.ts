@@ -91,4 +91,8 @@ export class UserUpdateComponent implements OnInit {
       }
     }
   }
+
+  deleteAccount(){
+    this.authService.deleteAccount();
+  }
 }

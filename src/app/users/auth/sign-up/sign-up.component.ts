@@ -14,7 +14,7 @@ export class SignUpComponent implements OnInit {
   signUpForm: any;
   user: User;
   private submitted = false;
-
+ private samePassword: true;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthserviceService, private router: Router) { }
 
@@ -28,6 +28,7 @@ export class SignUpComponent implements OnInit {
       description:['']
     });
   }
+
 
   get f(){
     return this.signUpForm.controls;

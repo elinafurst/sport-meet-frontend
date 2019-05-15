@@ -1,5 +1,6 @@
 .images {
-    background-image: url(https://images.unsplash.com/photo-1552667466-07770ae110d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+    background-image: url(https://images.unsplash.com/photo-1540848893531-5eece9a5fa64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
+    );
     background-position: center;
     background-repeat: no-repeat; 
     height: 700px;
@@ -9,11 +10,43 @@
     
 }
 
-h1 {
-    font-size: 300%;
+section {
+   /** background-color: darkslategrey*/
+
+}
+
+#background {
+    background-color: #f2f0f3;
 }
 
 
+.landing-header {
+    color: white;
+    font-size: 50px;
+}
+
+.landing-p {
+    font-size: 30px;
+}
+
+.core-background {
+    background-color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border:none;
+
+}
+
+.card {
+    height: 400px;
+}
+footer {
+    position: fixed;
+    height: 300px;
+    bottom: 0;
+    width: 100%;
+}
 .banner {
     color: white;
     margin-top: auto;

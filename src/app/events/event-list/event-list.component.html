@@ -1,17 +1,17 @@
-<section class="section mt-5 pb-5">
-    <div class="container ">
-        <div class="row">
-            <div class="col-md-6">
+<section class="section">
+    <div class="container-fluid box-fluid ">
+        <div class="row box-info no-gutters" id="event-info">
+            <div class="col-md-6 ">
                 <div>
                     <img alt="Sport bild" class="img-fluid" src="https://images.unsplash.com/photo-1473663065522-33361623fa27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
                     " />
                 </div>
             </div>
-            <div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0 ">
+            <div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0 pr-5">
                 <div class="row">
                     <h2>Hitta evenemang</h2>
                     <p class="margin-top-s">Här kan du filtrera efter vad du vill göra. Du kan söka på mellan datum, vilken sport du vill utöva och vart i Stockholm som passar dig.</p>
-                    <button routerLink="/events/registrera/form" class="btn btn-success">Skapa ditt egna evenemang</button>
+                    <button routerLink="/events/registrera/form" class="btn" id="event-button">Skapa ditt egna evenemang</button>
                 </div>
             </div>
         </div>
@@ -19,64 +19,133 @@
 </section>
 <div class="wrapper-list">
 
-<div class="container">
-    <div class=" p-sm-5 mt-3">
-        <div *ngIf="isLoggedIn()">
-                <app-event-filter *ngIf="showFilterButton" (click)="activateFilter()" (childEvent)="filterEvents($event)"  (childEvent2)="removeFilter()"></app-event-filter>
-                <button class="btn btn-success"  *ngIf="!filterActive && showUnitButton && !unitsActive" (click)="getEventsForUnitsUserFollows()">Se evenemang från grupper du följer +</button>
-            
-            <span *ngIf="unitsActive && !filterActive" (click)="reset()">Se alla igen</span>
-            <span *ngIf="hasFiltred" (click)="removeFilter()">Ta bort filter</span>
-        </div>
-        
-        <div class="container pt-3">
-            <h2 class="headers border-bottom mb-4">Evenemang</h2>
-            <div>{{errorMessage}}</div>
-            <div class="row">
-                <div class="col-12 col-md-6 mb-4 " *ngFor="let event of events">
-                    <a routerLink="/events/{{event.eventNumber}}" class="card">
-                        <div class="card-body"> 
-                                <div class="event-border">
-                                <div class="row ml-3 mb-2">
-                                    <h5 class="card-title">{{event.name}}</h5>
-                                </div>
-                            </div>
-                                <div class="border-top pb-2"></div>              
+<div class="container-fluid box-fluid">
+    <div class="">
+        <div  class="" *ngIf="isLoggedIn()">
+            <div class="pb-2 pt-4">
+                <button class="btn btn-dark ning mr-2" (click)="activateFilter()" *ngIf="!filterActive" >Filter +</button>
+                <button class="btn btn-light"  id="group-follow" *ngIf="!filterActive && showUnitButton && !unitsActive" (click)="getEventsForUnitsUserFollows()">Evenemang följer +</button>
+                <span *ngIf="unitsActive && !filterActive" (click)="reset()">Se alla</span>
+                <span *ngIf="hasFiltred" (click)="removeFilter()">Ta bort filter</span>
+            </div>
 
-                                <div class="row  ml-3 ">
-                                        <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDate}} {{event.eventStartTime}}</div>   
+            <div class="wrapper-filter" *ngIf="filterActive && !hasFiltred">
+                        <div class="row" id="filter-bar">                            
+                            <div class="col">            
+
+                               <div class="card filter-bar">
+                                <div class="card-body p-5">
+                                <span (click)="removeFilter()" *ngIf="filterActive" style="float:right;margin:0 0 0 auto;">Dölj</span>
+                    
+                                <h2 class="headers border-bottom">Filter</h2> 
+                    
+                                <span (click)="clearFilter()">Rensa filter</span>
+                                <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+                                    <div class="form-group row">
+                                        <div class="col-sm-5">
+                                            <label class="border-bottom"><b>Sport</b></label>
+                                                <select class="custom-select" formControlName="sport">
+                                                    <option value="" disabled>Välj sport</option>
+                                                    <option *ngFor="let sport of sports" [ngValue]="sport">{{sport}}</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-sm-5">                        
+                                            <label class=""><b>{{defaultCity}}</b></label>
+                                                <select class="custom-select" formControlName="area">
+                                                    <option value="" disabled>Välj område</option>
+                                                    <option *ngFor="let area of areas" [ngValue]="area">{{area}}</option>
+                                                </select>
+                                        </div>     
+                                    </div>                     
+                                    <label><b>Sök mellan datum</b></label>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <label><b>Från: </b></label> {{selectedFromDate}}
+                                            <dl-date-time-picker
+                                            class="picker"
+                                            startView="day"
+                                            maxView="year"
+                                            minView="day"
+                                            [(ngModel)]="selectedFromDate1"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="onSelectFromDate($event)"
+                                            >
+                                            </dl-date-time-picker>
+                                        </div>                    
+                                        <div class="col-md-5"> 
+                                            <label><b>Till: </b></label> {{selectedToDate}}
+                                            <dl-date-time-picker
+                                            class="picker"
+                                            startView="day"
+                                            maxView="year"
+                                            minView="day"
+                                            [(ngModel)]="selectedToDate1"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="onSelectToDate($event)"
+                                            >
+                                            </dl-date-time-picker>
+                                        </div>
                                     </div>
-                                <div class="row ml-3" >
-                                    <p class="text-muted">Sport: </p> <div class="tab">{{event.sport}}</div>   
-                                </div>
-                                <div class="row ml-3">
-                                    <p class="text-muted">Område: </p> <div class="tab">{{event.area}}</div>   
-                                </div>
-                                <div class="row ml-3">
-                                    <p class="text-muted">Vart: </p> <div class="tab">{{event.meetingPoint}}</div>   
-                                </div>
-                                <div class="row ml-3">
-                                    <p *ngIf="event.noOfParticipants != 0" class="text-muted">Extra medverkande: </p>
-                                    <div  *ngFor="let item of event.participants | keyvalue">
-                                        <div class="t"><a routerLink="/users/{{item.key}}"> {{item.value}} ·</a></div>
+                                  
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Sök</button>
+                                        <div class="error">{{error}}</div>
                                     </div> 
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+              
+                    </div>
+                </div>
+                    
+        
+                <div class="row pt-3">                
+                    <div>{{errorMessage}}</div>
+
+                    <div class="col-12 col-md-6 mb-4 " *ngFor="let event of events">
+                        <a routerLink="/events/{{event.eventNumber}}" class="card card-event p-3">
+                            <div class="card-body"> 
+                                    <div class="event-border">
+                                    <div class="row ml-3 mb-2">
+                                        <h5 class="card-title">{{event.name}}</h5>
+                                    </div>
                                 </div>
-                            
-                                <div class="border-bottom pt-2"></div>
-                                <div class="row ml-3 pt-4 pb-1">
-                                    <div class="">{{event.description}}</div>   
-                                 </div>
-                
-                    </div> 
-                    </a>                
+                                    <div class="border-top pb-2"></div>              
+    
+                                    <div class="row  ml-3 ">
+                                            <p class="text-muted">När: </p> <div class="tab">{{event.eventStartDateTime}}</div>   
+                                        </div>
+                                    <div class="row ml-3" >
+                                        <p class="text-muted">Sport: </p> <div class="tab">{{event.sport}}</div>   
+                                    </div>
+                                    <div class="row ml-3">
+                                        <p class="text-muted">Område: </p> <div class="tab">{{event.area}}</div>   
+                                    </div>
+                                    <div class="row ml-3">
+                                        <p class="text-muted">Vart: </p> <div class="tab">{{event.meetingPoint}}</div>   
+                                    </div>
+                                    <div class="row ml-3">
+                                        <p *ngIf="event.noOfParticipants != 0" class="text-muted">Extra medverkande: </p>
+                                        <div  *ngFor="let item of event.participants | keyvalue">
+                                            <div class="t"><a routerLink="/users/{{item.key}}"> {{item.value}} ·</a></div>
+                                        </div> 
+                                    </div>
+                                
+                                    <div class="border-bottom pt-2"></div>
+                                    <div class="row ml-3 pt-4 pb-1">
+                                        <div class="">{{event.description | listLimitTo}}</div>   
+                                     </div>
+                    
+                        </div> 
+                        </a>                
                 </div>
             </div>
-        </div>
        <div *ngIf="totalPages != null" class="container text-center"> 
             <div class="pagination" *ngFor="let page of pageArray; let i of index;">
                 <a (click)="setPage([i])">{{page + 1}}</a>
             </div>                    
         </div>
-    </div>
 </div>
 </div>

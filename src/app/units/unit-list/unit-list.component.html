@@ -1,16 +1,16 @@
-<section class="section mt-5 pb-5">
-    <div class="container ">
-        <div class="row">
+<section class="section">
+    <div class="container-fluid box-fluid ">
+        <div class="row box-info no-gutters">
             <div class="col-md-6">
                 <div>
-                    <img alt="Sport bild" class="img-fluid" src="https://images.unsplash.com/photo-1538117546660-8eee17c37064?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
+                    <img alt="Sport bild" class="img-fluid" src="https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1495&q=80" />
                 </div>
             </div>
-            <div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0 ">
+            <div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0 pr-5">
                 <div class="row">
                     <h2>Hitta grupper</h2>
                     <p class="margin-top-s">Du kan följa grupper för att få återkommande event i ditt flöde som passar dig</p>
-                    <button routerLink="/grupper/registera/form" class="btn btn-success">Skapa ditt egna grupp</button>
+                    <button routerLink="/grupper/registera/form" id="unit-button" class="btn btn-primary">Skapa ditt egna grupp</button>
                 </div>
             </div>
         </div>
@@ -18,12 +18,11 @@
 </section>
 
 <div class="wrapper-list">
-        <div class="container pt-3 ">
-        <h2 class="headers border-bottom mb-4">Grupper</h2>
+        <div class="container-fluid box-fluid pt-5 ">
         <div>{{errorMessage}}</div>
             <div class="row">
                 <div class="col-12 col-md-6 mb-4 " *ngFor="let unit of units">
-                    <a routerLink="/grupper/{{unit.unitNumber}}" class="card">
+                    <a routerLink="/grupper/{{unit.unitNumber}}" class="card p-3">
                     <div class="card-body"> 
                         <div class="unit-border">
                             <div class="row ml-3 mb-2">
@@ -40,7 +39,7 @@
                         </div>
                         <div class="border-bottom pt-2"></div>
                         <div class="row ml-3 pt-4 pb-1">
-                            <div class="">{{unit.description}}</div>   
+                            <div class="">{{unit.description | listLimitTo}}</div>   
                         </div>
                     </div> 
                     </a>                

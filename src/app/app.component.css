@@ -1,8 +1,7 @@
-.h2 {
-    font-family: PaytoneOne-Regular; 
-    color: black;
+.header-name {
+    color: #47584e !important;
 }
 
 .active {
-    border-bottom: 3px solid green;
+    border-bottom: 3px solid #47584e;
 }

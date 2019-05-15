@@ -11,7 +11,7 @@ import { AuthserviceService } from 'src/app/authservice.service';
 export class LoginComponent implements OnInit {
 
   loginForm: any;
-  error: boolean;
+  error: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthserviceService, private router: Router) { }
 
@@ -28,8 +28,7 @@ export class LoginComponent implements OnInit {
     var password = this.loginForm.value.password;
 
     console.log(username, password);
-    this.authService.login(username, password);
-    this.error = true;
+    this.error = this.authService.login(username, password);
     //TODO error wrong inlog this.error=false;
   }
 

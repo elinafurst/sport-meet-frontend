@@ -10,13 +10,16 @@ import ServiceUtils from './service-utils';
   providedIn: 'root'
 })
 export class AuthserviceService {
- 
+
 
   readonly baseUrl = environment.baseUrL;
+  readonly accountUrl = "account"
   readonly tokenUrl = "oauth/token";
   readonly logoutUrl = "account/signout"; 
   readonly signupUrl = "account/signup";
-
+  readonly resetUrl = "account/password/reset";
+  readonly updateUrl = "account/password/update";
+  readonly passwordSaveUrl ="account/password/save";
   private _headersAuth = new HttpHeaders()
   .set('Content-Type', 'application/x-www-form-urlencoded')
   .set('Authorization', 'Basic ' + btoa(environment.client_id + ':' + environment.client_secret));
@@ -28,7 +31,6 @@ export class AuthserviceService {
 
   /**
    * Checks if token has expired without making request to server.
-   * If token har expired it will try to get a new token by the refresh token
    */
 
   isAuthenticated(): boolean {
@@ -58,7 +60,7 @@ signUp(user: User): Observable<any> {
   return this.http.post(url, user, {headers: this._headersJson});
 }
 
-login(username: string, password: string) {
+login(username: string, password: string): boolean {
     var url = this.baseUrl + this.tokenUrl;
     const params = new HttpParams({
       fromObject: {
@@ -68,14 +70,19 @@ login(username: string, password: string) {
       }
     });
 
+    let error;
+
     this.http.post(url, params, {headers: this._headersAuth}).subscribe((data) => {
         console.log(data);
         this.router.navigate(["/"]);
         this.setTokens(data);
+        error = false;
     },
     (err) =>{
       console.log(err);
+      error = true;
     })
+    return error;
   }
 
 
@@ -92,9 +99,11 @@ login(username: string, password: string) {
 
   /**
    * Tries to get new access token through refresh token,  if succeeded user is still logged in, else redirectet to log-in page
+   * 
+   * EDIT: removed since storing token in localstorage
    */
   tryRefreshToken(): boolean{
-    console.log("try refresh");
+/** 
     const refresh_token = sessionStorage.getItem('refresh_token');
 
     if(refresh_token == undefined){
@@ -121,9 +130,50 @@ login(username: string, password: string) {
           success= false;
       })
       return success;
+      */
+     this.removeTokens();            
+     return false;
   }
 
+  resetPassword(email: any): Observable<any> {
+    var url = this.baseUrl + this.resetUrl;
 
+    return this.http.post(url, email);
+  }
+
+  checkPasswordUpdateToken(id: any): Observable<any> {
+    var url = this.baseUrl + this.updateUrl;
+    const params = new HttpParams({
+      fromObject: {
+        token: id,
+      }
+    });
+
+    return this.http.get(url, {params: params});
+  }
+
+  saveNewPassword(password: any, id:any): Observable<any> {
+    var url = this.baseUrl + this.passwordSaveUrl;
+    const params = new HttpParams({
+      fromObject: {
+        token: id,
+        password: password
+      }
+    });
+
+    return this.http.get(url, {params: params});
+
+  }
+
+  deleteAccount(){
+    var url = this.baseUrl + this.accountUrl;
+    var _headersToken = ServiceUtils.get_headersToken();
+
+    this.http.delete(url, {headers: _headersToken});
+    this.removeTokens();
+    this.router.navigate(["/home"]);
+  }
+ 
   removeTokens(){
     sessionStorage.clear();
   }

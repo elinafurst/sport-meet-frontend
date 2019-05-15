@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-sm-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-sm-4 border-bottom">
     <div class="pl-2">
-        <h2><a class="nav-link core" routerLink="/home">Sport Meet</a></h2>
+        <h2 class="header-name"><a class="nav-link core" routerLink="/home">Sport Meet</a></h2>
     </div>  
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -17,6 +17,13 @@
             <li *ngIf="isLoggedIn()" class="nav-item ml-sm-3">
                 <a class="nav-link" routerLink="/grupper" routerLinkActive="active">Grupper</a>
             </li>
+            <li *ngIf="isLoggedIn()" class="nav-item ml-sm-3">
+                    <a class="nav-link" routerLink="/inbox" routerLinkActive="active">Inbox<sup>{{unreadRequests}}</sup></a>
+                </li>
+           
+            <li class="nav-item ml-sm-3">
+                <a class="nav-link" href="#">Om oss</a>
+            </li>  
             <li *ngIf="isLoggedIn()" class="nav-item dropdown ml-sm-3">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">
                     Mina sidor<sup>{{unreadRequests}}</sup>
@@ -25,13 +32,9 @@
                     <a class="dropdown-item" routerLink="/mina-sidor/konto">Användarinfo</a>
                     <a class="dropdown-item" routerLink="/mina-sidor/grupper">Hantera grupper</a>
                     <a class="dropdown-item" routerLink="/mina-sidor/events">Hantera evenemang</a>
-                    <div class="dropdown-divider"></div>                    
-                    <a class="dropdown-item" routerLink="/inbox">Inbox<sup>{{unreadRequests}}</sup></a>
+                    
                 </div>
             </li>  
-            <li class="nav-item ml-sm-3">
-                <a class="nav-link" href="#">Om oss</a>
-            </li> 
             <li *ngIf="isLoggedIn()" (click)="logOut()" class="nav-item ml-sm-3">
                 <a class="nav-link">Logga ut</a>
             </li>
